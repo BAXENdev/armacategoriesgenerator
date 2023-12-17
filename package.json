@@ -1,0 +1,159 @@
+{
+  "name": "a3cg",
+  "displayName": "Arma 3 Categories Generator",
+  "description": "Fills out categories for an arma functions library",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": [
+      {
+        "title": "Arma 3 Categories Generator",
+        "properties": {
+          "a3cg.tag": {
+            "type": "string",
+            "default": "",
+            "description": "The tag for your addon or functions"
+          },
+          "a3cg.addTagClass": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to add tag class"
+          },
+          "a3cg.hideA3CGmenu": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to hide the A3CG submenu"
+          },
+          "a3cg.preinitFiles": {
+            "type": "array",
+            "default": [],
+            "description": "Files marked as preinit"
+          },
+          "a3cg.postinitFiles": {
+            "type": "array",
+            "default": [],
+            "description": "Files marked as postinit"
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "a3cg.generateCategories",
+        "title": "Generate Categories"
+      },
+      {
+        "command": "a3cg.defineTag",
+        "title": "Define Tag"
+      },
+      {
+        "command": "a3cg.enableTagClass",
+        "title": "Enable Generating Tag Class"
+      },
+      {
+        "command": "a3cg.disableTagClass",
+        "title": "Disable Generating Tag Class"
+      },
+      {
+        "command": "a3cg.togglePreinit",
+        "title": "Toggle preinit status for file"
+      },
+      {
+        "command": "a3cg.togglePostinit",
+        "title": "Toggle Postinit status for file"
+      },
+      {
+        "command": "a3cg.hideA3CGmenu",
+        "title": "Hide the A3CG submenu"
+      },
+      {
+        "command": "a3cg.unhideA3CGmenu",
+        "title": "Unhide the A3CG submenu"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "a3cg.submenu",
+        "label": "A3CG"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "submenu": "a3cg.submenu",
+          "group": "2_workspace",
+          "when": "!(config.a3cg.hideA3CGmenu || false)"
+        }
+      ],
+      "a3cg.submenu": [
+        {
+          "command": "a3cg.generateCategories",
+          "when": "explorerResourceIsFolder",
+          "title": "Generate Categories",
+          "group": "2_main@3"
+        },
+        {
+          "command": "a3cg.togglePreinit",
+          "when": "resourceExtname === '.sqf'",
+          "title": "Toggle preinit status",
+          "group": "2_main@4"
+        },
+        {
+          "command": "a3cg.togglePostinit",
+          "when": "resourceExtname === '.sqf'",
+          "title": "Toggle postinit status",
+          "group": "2_main@5"
+        },
+        {
+          "command": "a3cg.defineTag",
+          "title": "Define Tag",
+          "group": "2_main@1"
+        },
+        {
+          "command": "a3cg.enableTagClass",
+          "when": "!(config.a3cg.addTagClass || false)",
+          "title": "Enable Generating Tag Class",
+          "group": "2_main@2"
+        },
+        {
+          "command": "a3cg.disableTagClass",
+          "when": "(config.a3cg.addTagClass || false)",
+          "title": "Disable Generating Tag Class",
+          "group": "2_main@2"
+        },
+        {
+          "command": "a3cg.hideA3CGmenu",
+          "title": "Hide A3CG Menu",
+          "group": "2_main@6"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.3",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.84.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "@vscode/test-electron": "^2.3.6",
+    "eslint": "^8.52.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
+  }
+}
